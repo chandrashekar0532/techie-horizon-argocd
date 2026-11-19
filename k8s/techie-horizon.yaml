@@ -1,0 +1,35 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: techie-horizon
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: techie-horizon
+  template:
+    metadata:
+      labels:
+        app: techie-horizon
+    spec:
+      containers:
+        - name: techie-horizon
+          image: 986881030460.dkr.ecr.us-east-1.amazonaws.com/techie-horizon:jenkins-2
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: techie-horizon-service
+  namespace: default
+spec:
+  type: ClusterIP
+  selector:
+    app: techie-horizon
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
